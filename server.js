@@ -8,7 +8,7 @@ let server = http.Server(app);
 // app.use(express.static(__dirname + '/public'));
 
 app.get('/', function (req, res) {
-  res.send('hello world');
+  res.sendFile(__dirname + '/views/index.html');
 });
 
 app.get('/pagecount', function (req, res) {
@@ -16,20 +16,24 @@ app.get('/pagecount', function (req, res) {
 });
 
 let ip = process.env.IP || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0';
-let port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080;
+let port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8081;
 
 
 server.listen(port, ip);
 
-socket.listen(server).on('connection', function (socket) {
+let io = socket.listen(server);
+io.on('connection', function (socket) {
   console.log('a user connected');
+
   socket.on('disconnect', function () {
     console.log('user disconnected');
   });
+
+  socket.on('chat message', function(msg) {
+    console.log('message: ' + msg);
+    io.emit('chat message', msg);
+  });
 });
-
-
-
 
 
 
