@@ -8,7 +8,11 @@ let server = http.Server(app);
 // app.use(express.static(__dirname + '/public'));
 
 app.get('/', function (req, res) {
-    res.send('hello world');
+  res.send('hello world');
+});
+
+app.get('/pagecount', function (req, res) {
+  res.send('{ pageCount: 73 }');
 });
 
 let ip = process.env.IP || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0';
@@ -18,10 +22,10 @@ let port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080;
 server.listen(port, ip);
 
 socket.listen(server).on('connection', function (socket) {
-    console.log('a user connected');
-    socket.on('disconnect', function () {
-        console.log('user disconnected');
-    });
+  console.log('a user connected');
+  socket.on('disconnect', function () {
+    console.log('user disconnected');
+  });
 });
 
 
