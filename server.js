@@ -16,7 +16,7 @@ app.get('/pagecount', function (req, res) {
 });
 
 let ip = process.env.IP || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0';
-let port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8081;
+let port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080;
 
 
 server.listen(port, ip);
