@@ -1,3 +1,39 @@
+let http = require('http');
+let socket = require('socket.io');
+let express = require('express');
+
+let app = express();
+let server = http.Server(app);
+
+// app.use(express.static(__dirname + '/public'));
+
+app.get('/', function (req, res) {
+    res.send('hello world');
+});
+
+let ip = process.env.IP || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0';
+let port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080;
+
+
+server.listen(port, ip);
+
+socket.listen(server).on('connection', function (socket) {
+    console.log('a user connected');
+    socket.on('disconnect', function () {
+        console.log('user disconnected');
+    });
+});
+
+
+
+
+
+
+
+
+
+
+/*
 //  OpenShift sample Node application
 var express = require('express'),
     app     = express(),
@@ -106,3 +142,4 @@ app.listen(port, ip);
 console.log('Server running on http://%s:%s', ip, port);
 
 module.exports = app ;
+*/
